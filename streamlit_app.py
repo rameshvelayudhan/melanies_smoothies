@@ -10,10 +10,8 @@ st.write(
     """
 )
 
-
 cnx = st.connection("snowflake")
 session = cnx.session()
-
 nameonorder_string = ''
 
 nameonsmothie_tb = st.text_input("Name on Smoothie!")
@@ -22,7 +20,11 @@ st.write('The name on Smoothie will be : ',  nameonsmothie_tb)
 nameonorder_string = nameonsmothie_tb
 
 my_dataframe = session.table("smoothies.public.fruit_options").select(col("fruit_name"),col("search_on"))
-st.dataframe(data=my_dataframe, use_container_width=True)
+# st.dataframe(data=my_dataframe, use_container_width=True)
+
+# convert to pandas
+pd_df = my_dataframe.to_pandas()
+st.dataframe(data=pd_df)
 st.stop()
 
 ingredients_list = st.multiselect(
