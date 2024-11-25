@@ -9,12 +9,6 @@ st.write(
     """
 )
 
-# option = st.selectbox(
-#     'What is your favourite fruit? ',
-#     ('Banana', 'Strawberries', 'Peaches')
-# )
-
-# st.write('You selected : ',  option)
 
 cnx = st.connection("snowflake")
 session = cnx.session()
@@ -32,6 +26,11 @@ my_dataframe = session.table("smoothies.public.fruit_options").select(col("fruit
 ingredients_list = st.multiselect(
         'Choose upto 5 ingredients : ' ,my_dataframe,max_selections=5
 )
+
+# New section to display Smoothies nutrients information
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response)
 
 if ingredients_list:
     st.write(ingredients_list)
